@@ -111,5 +111,3 @@ def compare_dict():  # 字典的集合运算
     c = {key: a[key] for key in a.keys() - {'z', 'w'}}  # 字典推导，去除指定项
     print(c)
 
-
-
