@@ -89,11 +89,27 @@ def dictionary():  # 字典中的键映射多个值;字典排序
         'FB': 10.75
     }
 
-    min_price = min(zip(prices.values(), prices.keys()))    # zip()用于将字典的key和value反转(zip只能访问一次)，min找出最小值
+    min_price = min(zip(prices.values(), prices.keys()))  # zip()用于将字典的key和value反转(zip只能访问一次)，min找出最小值
     print(min_price)
-    prices_sorted = sorted(zip(prices.values(), prices.keys()))    # 依据价格排序
+    prices_sorted = sorted(zip(prices.values(), prices.keys()))  # 依据价格排序
     print(prices_sorted)
-    print(min(prices, key=lambda k: prices[k]))    # 返回价格最小的键值
+    print(min(prices, key=lambda k: prices[k]))  # 返回价格最小的键值
 
 
-dictionary()
+def compare_dict():  # 字典的集合运算
+    a = {'x': 1,
+         'y': 2,
+         'z': 3
+         }
+    b = {'w': 10,
+         'x': 11,
+         'y': 2}
+    print(a.keys() & b.keys())  # a和b中相同的key值
+    print(a.keys() - b.keys())  # a和b中不同不同的key值
+    print(a.items() & b.items())  # a和b中key，value都相同的项
+
+    c = {key: a[key] for key in a.keys() - {'z', 'w'}}  # 字典推导，去除指定项
+    print(c)
+
+
+
