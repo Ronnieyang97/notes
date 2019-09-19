@@ -108,8 +108,6 @@ def align():  # 对齐
     # .join 连接的对象可以是列表，元组，字典，文件，生成器，集合等
 
 
-
-
 def replace_str():  # 替换
     test = 'Today is 11/27/2012. PyCon starts 3/13/2013.'
     import re
