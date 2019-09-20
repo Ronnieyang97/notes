@@ -89,7 +89,7 @@ def clean():  # 清理格式
     print(test.encode('ascii', 'ignore').decode('ascii'))  # 编码时将非ascii码直接丢弃，再重新解码为ascii
 
 
-def align():  # 对齐
+def toformat():  # 格式化
     text = "test test1"
     print(text.ljust(20))
     print(text.rjust(20, '*'))
@@ -107,6 +107,53 @@ def align():  # 对齐
     print(' '.join(parts))  # 拼接字符串
     # .join 连接的对象可以是列表，元组，字典，文件，生成器，集合等
 
+    data = ['abc', 1, 'bcd', 2, 'cde']
+    print(',,'.join(str(d) for d in data))  # 单纯拼接字符串最好使用.join和生成器，而避免使用for循环和+=，后者会进行多余的内存复制和垃圾回收
+
+    # I/O时，尽量避免f.write(str1 + str2),如果str1和str2较大则会产生一个较大的临时结果，复制大量内存数据。
+
+    def sample():  # 处理大量小字符串
+        yield 'is'
+        yield 'Chicago'
+        yield 'Not'
+        yield 'Chicago?'
+
+    print('..'.join(sample()))  # 拼接
+    for part in sample():  # 输出重定向
+        print(part)
+
+    s = "Look into my eyes, look into my eyes, the eyes, the eyes, " \
+        "the eyes, not around the eyes, don't look around the eyes, " \
+        "look into my eyes, you're under."
+
+    import textwrap
+    print(textwrap.fill(s, 70))  # 使字符串长度限定为一行七十
+    print(textwrap.fill(s, 40, initial_indent='  '))  # 开头缩进;使用initial_indent=' '参数则为除第一行其他行缩进指定字符串
+
+    s = 'Elements are written as "<tag>text</tag>".'
+    import html
+    print(html.escape(s))  # 处理html中的<>符号
+    print(html.escape(s, quote=False))  # 返回结果相较于上一个会少一项quote
+
+
+def spilt_str():
+    text = 'foo = 23 + 42 * 10'
+    import re
+    NAME = r'(?P<NAME>[a-zA-Z_][a-zA-Z_0-9]*)'  # ?P<TOKENNAME>用于给一个模式命名
+    NUM = r'(?P<NUM>\d+)'
+    PLUS = r'(?P<PLUS>\+)'
+    TIMES = r'(?P<TIMES>\*)'
+    EQ = r'(?P<EQ>=)'
+    WS = r'(?P<WS>\s+)'
+    master_pat = re.compile('j'.join([NAME, NUM, PLUS, TIMES, EQ, WS]))
+
+    scanner = master_pat.scanner('foo = 23 + 42 * 10')
+    first = scanner.match
+    for m in iter(scanner.match, None):
+        print(m.lastgroup, m.groups)
+
+
+
 
 def replace_str():  # 替换
     test = 'Today is 11/27/2012. PyCon starts 3/13/2013.'
@@ -116,10 +163,36 @@ def replace_str():  # 替换
     datepad = re.compile(r'(\d+)/(\d+)/(\d+)')
     datepad.sub(r'\3-\1-\2', test)
 
+    s = '{name} has {n} messages.'
+    print(s.format(name="ronnie", n=10))  # 直接拼接
+    name = "ronnieyang"
+    n = 20
+    print(s.format_map(vars()))  # 通过format_map和vars()完成拼接
+
+    import string
+    s = string.Template('$name has $n messages.')  # 使用string.Template初始化
+    print(s.substitute(vars()))  # 使用substitute(vars())拼接
+
+    # vars可用于对象实例
+    class Info:
+        def __init__(self, name, n):
+            self.name = name
+            self.n = n
+
+    a = Info('yyh', 30)
+    print(s.format_map(vars(a)))
+
+    class safemode(dict):
+        def __missing__(self, key):  # 防止找不到应有参数
+            return '{' + key + '}'
+
+    del n  # 确保n未定义
+    print(s.format_map(safemode(vars())))
+
 
 def ignore():  # 忽略大小写
     import re
     # 将flag参数设置为re.IGNORECASE
 
 
-align()
+spilt_str()
