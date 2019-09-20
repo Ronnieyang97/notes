@@ -138,21 +138,18 @@ def toformat():  # 格式化
 
 def spilt_str():
     text = 'foo = 23 + 42 * 10'
-    import re
-    NAME = r'(?P<NAME>[a-zA-Z_][a-zA-Z_0-9]*)'  # ?P<TOKENNAME>用于给一个模式命名
-    NUM = r'(?P<NUM>\d+)'
-    PLUS = r'(?P<PLUS>\+)'
-    TIMES = r'(?P<TIMES>\*)'
-    EQ = r'(?P<EQ>=)'
-    WS = r'(?P<WS>\s+)'
-    master_pat = re.compile('j'.join([NAME, NUM, PLUS, TIMES, EQ, WS]))
+    import re  # ?P<TOKENNAME>用于给一个模式命名;
+    name = r'(?P<NAME>[a-zA-Z_][a-zA-Z_0-9]*)'  # 第一个中括号中的内容限制了字符串的范围（a-z，A-Z，_）第二个中括号确保了不会有空格出现
+    num = r'(?P<NUM>\d+)'  # \d表示数字，+表示任意数量的数字
+    plus = r'(?P<PLUS>\+)'  # \+表示加号
+    times = r'(?P<TIMES>\*)'  # \*表示乘号
+    eq = r'(?P<EQ>=)'  # =表示等号
+    ws = r'(?P<WS>\s+)'  # \s+表示任意长度的空格
+    master_pat = re.compile('|'.join([name, num, plus, times, eq, ws]))  # 会先匹配name，然后num。。。
 
     scanner = master_pat.scanner('foo = 23 + 42 * 10')
-    first = scanner.match
-    for m in iter(scanner.match, None):
-        print(m.lastgroup, m.groups)
-
-
+    for m in iter(scanner.match, None):  # scanner.match调用时不能加括号，因为iter()的参数必须是callable的
+        print(m.lastgroup, m.group())
 
 
 def replace_str():  # 替换
@@ -195,4 +192,20 @@ def ignore():  # 忽略大小写
     # 将flag参数设置为re.IGNORECASE
 
 
-spilt_str()
+def dotext():  # 对字节字符串执行文本操作
+    data1 = b'hello world'  # 字节形式
+    print(data1)  # 结果为b'hello world'
+    data2 = r'hello world'  # 非转义字符串
+    print(data2)  # 结果为hello world
+
+    print(data1.split())  # 结果为[b'hello', b'world']
+    print(data2.split())  # 结果为['hello', 'world']
+
+    data1.replace(b'Hello', b'Hello Cruel')
+    print(data1)
+
+    print(data1.decode('ascii') == data2)  # 解码后b前缀为b的字节字符串等于前缀为r的转义字符串
+
+
+
+dotext()
