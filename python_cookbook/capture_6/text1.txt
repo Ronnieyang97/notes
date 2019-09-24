@@ -1,0 +1,2 @@
+this is text1 for capture6
+this text1 is to test pipe_data

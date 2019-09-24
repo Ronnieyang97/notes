@@ -1,0 +1,2 @@
+this is the second .txt file
+this file is also to test pipe_data in capture6

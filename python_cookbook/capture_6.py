@@ -221,5 +221,3 @@ def merge():  # 在长序列中使用很有优势，因为不会直接读取所�
     for c in heapq.merge(a, c):
         print(c)  # 返回值为1，3，6，4，2，7，8，13
 
-
-
