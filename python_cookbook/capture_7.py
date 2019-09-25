@@ -79,6 +79,62 @@ def teststr():
     # 因此，它们不能在那些需要使用真实的系统级文件如文件，管道或者是套接字的程序中使用。
 
 
+def road():
+    import os
+    path = 'C:\\Users\\Ronnie Yang\\PycharmProjects\\notes\\python_cookbook\\capture_7\\test1.txt'
+    dirpath = 'C:\\Users\\Ronnie Yang\\PycharmProjects\\notes\\python_cookbook\\'
+    print(os.path.basename(path))  # 获取文件名
+    print(os.path.dirname(path))  # 获取路径名字
+    print(os.path.join("temp", "data", os.path.basename(path)))  # 添加路径名
+    print(os.path.exists('C:\\Users\\Ronnie Yang\\PycharmProjects\\notes\\python_cookbook\\capture_7'))  # 测试路径是否存在
+    print(os.path.isfile(path))  # 测试文件是否存在
+    # os.path.isdir() 是否为目录
+    # os.path.islink() 是否为符号链接
+    # os.path.getsize() 获取文件大小
+    # time.ctime(os.path.getmtime('/etc/passwd')) 获取文件修改日期
+
+    print(os.listdir(dirpath))  # 获取路径下属子文件
+
+    import glob
+    print(glob.glob(dirpath + '/*.py'))  # 匹配文件名
+
+    import fnmatch
+    print([name for name in os.listdir(dirpath) if fnmatch.fnmatch(name, '*.py')])  # 匹配文件名
 
 
-teststr()
+def tempfile():  # 创建临时文件和目录
+    from tempfile import TemporaryDirectory, TemporaryFile
+    with TemporaryFile('w+t', delete=False) as f:  # 读写,将delete设置为false则文件关闭时不会自动删除
+        f.write('Hello World\n')
+        f.write('Testing\n')
+        f.seek(0)  # 将指针指回文件开始处
+        data = f.read()
+        print(data)
+
+    with TemporaryDirectory() as dirname:
+        print('dirname is:', dirname)
+
+
+def communication():  # 串口通信
+    import serial  # 通过pip install pySerial安装
+    ser = serial.Serial('/dev/tty.usbmodem641',  # 设备样例
+                        baudrate=9600,
+                        bytesize=8,
+                        parity='N',
+                        stopbits=1)
+    # 时刻记住所有涉及到串口的I/O 都是二进制模式的。因此，确保你的代码使用的是字节而不是文本(或有时候执行文本的编码/解码操作)
+
+
+def serialization():  # 序列化python对象成为一个字节流，便于保存到文件或数据库或通过网络传输它
+    import pickle
+    data = ['test', 'test1', '1234', '34.789', ('tuple1', 'tuple2'), {"dict": 110, "dict2": 12.12}]
+    with open('C:\\Users\\Ronnie Yang\\PycharmProjects\\notes\\python_cookbook\\capture_7\\io.txt', 'wb') as f:
+        pickle.dump(data, f)
+    print(pickle.dumps(data))  # 将data存储为字符串,即以二进制格式存入文本中的内容
+
+    with open('C:\\Users\\Ronnie Yang\\PycharmProjects\\notes\\python_cookbook\\capture_7\\io.txt', 'rb') as f:
+        print(pickle.load(f))
+
+
+
+serialization()
