@@ -1,0 +1,3 @@
+this is a test file for capture7
+
+this is the first file to test open()
