@@ -135,6 +135,14 @@ def serialization():  # 序列化python对象成为一个字节流，便于保�
     with open('C:\\Users\\Ronnie Yang\\PycharmProjects\\notes\\python_cookbook\\capture_7\\io.txt', 'rb') as f:
         print(pickle.load(f))
 
+    # 对于打开的文件，网络连接，线程，进程，栈帧等特殊情况。用户自定义类可以通过提供_getstate_()和_setstate_()来绕过这些限制
+    # def __getstate__(self):
+    #     return self.n
+    # def __setstate__(self, n):
+    #     self.__init__(n)
+
+    # 对于大型的数据结构比如使用array或numpy模块创建的二进制数组pickle并不是一个高效的编码方式。
+    # 最好是先在一个文件中将其保存为数组数据块或使用更高级的标准编码方式如HDF5(需要第三方库的支持)。
+    # 所有如果需要长期存储数据的时候不应该选用它。对于在数据库和存档文件中存储数据时，最好使用更加标准的数据编码格式如XML，CSV或JSON。
 
 
-serialization()
