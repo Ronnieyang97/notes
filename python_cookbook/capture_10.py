@@ -160,7 +160,8 @@ class SubPerson(Person):
     def name(self, value):
         print('Setting name to', value)  # 扩展了Perosn中setter的功能
         super(SubPerson, SubPerson).name.__set__(self, value)
-# 为了委托给之前定义的setter方法，需要将控制权传递给之前定义的name属性的set()方法。不过，获取这个方法的唯一途径是使用类变量而不是实例变量来访问它。
+
+    # 为了委托给之前定义的setter方法，需要将控制权传递给之前定义的name属性的set()方法。不过，获取这个方法的唯一途径是使用类变量而不是实例变量来访问它。
 
     @name.deleter
     def name(self):
@@ -180,8 +181,59 @@ class SubPerson2(Person):
         return super().name
 
 
-s2 = SubPerson2("ronnieyang")
-print(s2.name)
+class Integer:  # 描述器，定义魔术方法
+    def __init__(self, name):
+        self.name = name
+
+    def __get__(self, instance, cls):
+        if instance is None:
+            return self
+        else:
+            return instance.__dict__[self.name]
+
+    def __set__(self, instance, value):
+        if not isinstance(value, int):
+            raise TypeError('Expected an int')
+        instance.__dict__[self.name] = value
+
+    def __delete__(self, instance):
+        del instance.__dict__[self.name]
 
 
+class Point:  # 使用描述器需要将这个描述器的实例作为类属性放到一个类的定义中
+    x = Integer('x')  # 必须在属性中定义
+    y = Integer('y')
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+
+class LazyProperty:  # 定义延时属性
+    # 将一个只读属性定义成一个property，并且只在访问的时候才会计算结果。一旦被访问后，结果值被缓存起来，不用每次都去计算。
+    def __init__(self, func):
+        self.func = func
+
+    def __get__(self, instance, cls):
+        if instance is None:
+            return self
+        else:
+            value = self.func(instance)
+            setattr(instance, self.func.__name__, value)
+            return value
+
+
+class Circle:
+    def __init__(self, radius):
+        self.radius = radius
+
+    @LazyProperty
+    def area(self):
+        print('Computing area')
+        return math.pi * self.radius ** 2
+
+    @LazyProperty
+    def perimeter(self):
+        print('Computing perimeter')
+        return 2 * math.pi * self.radius
 
