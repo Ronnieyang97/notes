@@ -181,6 +181,7 @@ class SubPerson2(Person):
         return super().name
 
 
+#################################################################
 class Integer:  # 描述器，定义魔术方法
     def __init__(self, name):
         self.name = name
@@ -209,6 +210,7 @@ class Point:  # 使用描述器需要将这个描述器的实例作为类属性�
         self.y = y
 
 
+#############################################################################
 class LazyProperty:  # 定义延时属性
     # 将一个只读属性定义成一个property，并且只在访问的时候才会计算结果。一旦被访问后，结果值被缓存起来，不用每次都去计算。
     def __init__(self, func):
@@ -236,4 +238,101 @@ class Circle:
     def perimeter(self):
         print('Computing perimeter')
         return 2 * math.pi * self.radius
+
+
+####################################################################
+from abc import ABCMeta, abstractmethod
+
+
+class IStream(metaclass=ABCMeta):  # 定义为抽象类，无法直接被实例化
+    @abstractmethod
+    def read(self, maxbytes=-1):
+        print('read')
+
+    @abstractmethod
+    def write(self, data):
+        print('write')
+
+
+# 抽象类的目的就是让别的类继承它并实现特定的抽象方法
+
+
+class SocketStream(IStream):
+    def read(self, maxbytes=-1):
+        print('son-read')
+
+    def write(self, data):
+        print('son-write')
+
+
+# 抽象基类的一个主要用途是在代码中检查某些类是否为特定类型，实现了特定接口
+
+
+def serialize(obj, stream):
+    if not isinstance(stream, IStream):
+        raise TypeError('Expected an IStream')
+    else:
+        print('true')
+
+
+##############################################################
+# 属性的代理访问
+class A:
+    def spam(self, x):
+        print('spam A', x)
+
+    def foo(self):
+        print('foo A')
+
+
+class B1:  # 简单的代理
+    def __init__(self):
+        self._a = A()
+
+    def spam(self, x):
+        return self._a.spam(x)
+
+    def foo(self):
+        return self._a.foo()
+
+    def bar(self):
+        print('bar B1')
+
+
+class B2:  # 使用__getattr__ 的代理，代理方法比较多的时候
+    def __init__(self):
+        self._a = A()
+
+    def bar(self):
+        print('bar B2')
+
+    def __getattr__(self, name):
+        return getattr(self._a, name)  # 从A处继承的函数，在pycharm中不会有suggestion提示;对于双下划线的属性需要额外手动继承
+
+
+testb1 = B1()
+testb1.spam(1)
+testb1.foo()
+testb2 = B2()
+testb2.spam(2)
+
+##################################################
+import time
+
+
+class Date:
+    def __init__(self, year, month, day):
+        self.year = year
+        self.month = month
+        self.day = day
+
+    @classmethod
+    def today(cls):
+        t = time.localtime()
+        return cls(t.tm_year, t.tm_mon, t.tm_mday)  # cls（）的过程就类似于给Date赋值
+
+
+a = Date(2019, 10, 11)
+b = Date.today()  # b为一个Date类，类中的year,month,day为today函数中返回的当前年月日
+
 
