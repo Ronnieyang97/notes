@@ -331,8 +331,50 @@ class Date:
         t = time.localtime()
         return cls(t.tm_year, t.tm_mon, t.tm_mday)  # cls（）的过程就类似于给Date赋值
 
+    def out(self):
+        print(self.month)
+
 
 a = Date(2019, 10, 11)
 b = Date.today()  # b为一个Date类，类中的year,month,day为today函数中返回的当前年月日
+b.out()
+#####################################################
+# 绕过init初始化
+d = Date.__new__(Date)  # 此时d已经被创建，但是需要手动初始化year,month和day
+data = {'year': 2012, 'month': 8, 'day': 29}
+for key, value in data.items():
+    setattr(d, key, value)
+d.out()
 
 
+######################################
+# 访问者模式
+class NodeVisitor:
+    def visit(self, node):
+        methname = 'visit_' + type(node).__name__
+        meth = getattr(self, methname, None)
+        return meth(node)
+
+
+class Evaluator(NodeVisitor):
+    def visit_Number(self, node):
+        return node.value
+
+    def visit_Add(self, node):
+        return self.visit(node.left) + self.visit(node.right)
+
+    def visit_Sub(self, node):
+        return self.visit(node.left) - self.visit(node.right)
+
+    def visit_Mul(self, node):
+        return self.visit(node.left) * self.visit(node.right)
+
+    def visit_Div(self, node):
+        return self.visit(node.left) / self.visit(node.right)
+
+    def visit_Negate(self, node):
+        return -node.operand
+
+# 访问者模式可以避免使用大量的if/elif/else语句，实操略难理解
+
+################################################################
