@@ -13,15 +13,19 @@ pre = ['a', 'b', 'd', 'e', 'h', 'i', 'c', 'f', 'g']
 inorder = ['d', 'b', 'h', 'e', 'i', 'a', 'f', 'c', 'g']
 
 
-def divide(pre, inorder):
+def divide(inorder):
+    global pre
     root = Node(pre[0])
+    if len(inorder) == 1:
+        return root
     location = inorder.index(pre[0])
-
-    root.left = divide(pre[1:], inorder[:location])
-    root.right = divide(pre[2:], inorder[location + 1:])
+    pre = pre[1:]
+    root.left = divide(inorder[:location])
+    pre = pre[1:]
+    root.right = divide(inorder[location + 1:])
 
     return root
 
 
-x = divide(pre, inorder)
-print(x.right)
+x = divide(inorder)
+print(x.right.right.node)
