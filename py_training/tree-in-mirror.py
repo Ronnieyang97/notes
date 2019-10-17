@@ -30,3 +30,4 @@ def reverse(nodee):
 
 
 print(reverse(first).left.s)
+
