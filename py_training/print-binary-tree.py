@@ -25,5 +25,4 @@ second2.right = node('g')
 first.right = second2
 first.left = second1
 
-
 first.print_tree()
