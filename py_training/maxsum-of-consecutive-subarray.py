@@ -52,8 +52,6 @@ while end < lenth:
                 break
             else:
                 continue
-
-print(result)
 resultsum = []
 for i in result:
     resultsum.append(sum(test[i[0]:i[1]]))
