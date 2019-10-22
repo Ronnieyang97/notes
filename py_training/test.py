@@ -1,4 +1,1 @@
-# just for test
-test = ('a', 'b', 'c')
-print(''.join(test))
-
+print('123'.count('5'))
