@@ -5,7 +5,7 @@
 # 先找到第一个正数，如果后面仍然是在正数就相加，
 # 如果是负数（一个或多个）就一直加上负数直到出现下一个正数或是和小于等于0，下一个是正数的情况就将正数和若干个负数收敛成一个新的正数
 # 如果是负数就舍弃前段数据，将下一个正数作为start重复
-test = [6, -3, -2, 7, -15, 10, -2, -2, -4, 7, 6]
+test = [3, 4, -5, 6, 7, -8]
 start = 0
 end = 1
 result = []
@@ -21,7 +21,8 @@ while end < lenth:
     elif test[end] < 0:
         if sum(test[start:end+1]) > 0:
             end += 1
-            if end == lenth-1:
+            if end == lenth:
+                end -= 1
                 while end > start:
                     if test[end] <= 0:
                         end -= 1
@@ -57,6 +58,5 @@ resultsum = []
 for i in result:
     resultsum.append(sum(test[i[0]:i[1]]))
 print(result[resultsum.index(max(resultsum))])
-
 
 
