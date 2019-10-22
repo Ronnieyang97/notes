@@ -7,9 +7,42 @@ class node:
         self.left = None
         self.right = None
 
-    def preoerder(self):  # 前序遍历
+    def preorder(self):  # 前序遍历
         print(self.s)
         if self.left is not None:
-            self.left.print_tree()
+            self.left.preorder()
         if self.right is not None:
-            self.right.print_tree()
+            self.right.preorder()
+
+    def inorder(self):  # 中序遍历
+        if self.left is not None:
+            self.left.inorder()
+        print(self.s)
+        if self.right is not None:
+            self.right.inorder()
+
+    def postorder(self):  # 后序遍历
+        if self.left is not None:
+            self.left.postorder()
+        if self.right is not None:
+            self.right.postorder()
+        print(self.s)
+
+
+
+first = node('a')
+second1 = node('b')
+second2 = node('c')
+second1.left = node('d')
+second1.right = node('e')
+second2.left = node('f')
+second2.right = node('g')
+first.right = second2
+first.left = second1
+
+first.preorder()
+first.inorder()
+first.postorder()
+
+
+
