@@ -8,9 +8,6 @@ def checkone(num):  # 较为简单的处理方法，将所有字符串遍历转�
     print(times)
 
 
-def checkone_by_bit(num):  # 按照最后终止的num的各个位数的数字来判断1的个数
-    num = str(num)
-    lenth = len(num)
-    pass
 
-checkone(222)
+
+checkone(113)
