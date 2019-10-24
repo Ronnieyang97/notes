@@ -29,7 +29,6 @@ class node:
         print(self.s)
 
 
-
 first = node('a')
 second1 = node('b')
 second2 = node('c')
