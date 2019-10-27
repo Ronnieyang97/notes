@@ -1,12 +1,14 @@
 from numpy import array, argwhere, vstack
+
 # argwhere直接返回矩阵中所有符合目标的值
 
 test = array([['a', 'b', 'c', 'e'],
-             ['s', 'f', 'c', 's'],
-             ['a', 'd', 'e', 'e']])
+              ['s', 'f', 'c', 's'],
+              ['a', 'd', 'e', 'e']])
 path = []
 target = 'bccec'
 cursor = 0
+
 
 def getall(target):
     maybe = []
@@ -16,12 +18,11 @@ def getall(target):
         else:
             return 0
     # maybe中的每一项都是字符的可能位置
-
     path = []
-    for i in range(0, len(maybe)-1):
+    for i in range(0, len(maybe) - 1):
         temp = []
         for x in maybe[i]:
-            for y in maybe[i+1]:
+            for y in maybe[i + 1]:
                 if check(x, y):
                     temp.append([x, y])
         path.append(temp)
@@ -40,7 +41,7 @@ def getall(target):
 
 
 def check(a, b):  # a,b为单个数组对
-    if (a[0] - b[0])**2 + (a[1] - b[1])**2 == 1:
+    if (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 == 1:
         return 1
     else:
         return 0
