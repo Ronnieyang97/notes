@@ -17,5 +17,3 @@ if t.is_alive():
     print('still running\n')
 else:
     print('completed')
-
-
