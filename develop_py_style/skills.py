@@ -1,4 +1,5 @@
 from collections import namedtuple
+import operator
 
 season = namedtuple('seasons', ['spring', 'summer', 'autumn', 'winter'])._make(range(4))
 print(season.spring)
@@ -69,7 +70,7 @@ test3 = test2[:]  # test3相当于test2的浅拷贝，地址与test2不同，因
 test2.append('d')
 # str的相关操作与list不同，不会相互影响
 # ————————————————————————————————————————————————————————————————————————
-a = [str(i) if i > 3 else i*i for i in range(5) if i % 2 == 0]
+a = [str(i) if i > 3 else i * i for i in range(5) if i % 2 == 0]
 # 上式相当于
 a = []
 for i in range(5):
@@ -77,8 +78,56 @@ for i in range(5):
         if i > 3:
             a.append(str(i))
         else:
-            a.append(i*i)
+            a.append(i * i)
 # 多重迭代
-test = [(a, b)for a in ['a', 5, '8'] for b in ['f', '5', '8'] if a != b]
+test = [(a, b) for a in ['a', 5, '8'] for b in ['f', '5', '8'] if a != b]
 print(test)  # 多重迭代会对a,b所在的列表求笛卡尔积，并根据条件筛选
+
+
+# ————————————————————————————————————————————————
+class Fruit:
+    total = 0
+
+    def __init__(self):
+        self.price = 0
+
+    @classmethod
+    def print_tatal(cls):
+        print(cls.total)
+        print(id(Fruit.total))
+        print(id(cls.total))
+
+    @classmethod
+    def set_total(cls, value):
+        cls.total = value
+
+    def set_price(self, value):
+        self.price = value
+
+
+class Orange(Fruit):
+    pass
+
+
+org1 = Orange()
+org2 = Orange()
+org1.set_total(300)
+org1.set_price(10)
+org2.set_total(600)
+org2.set_price(20)
+org1.print_tatal()  # 可以看到org1 和 org2 所用的total其实是同一个地址
+print(org1.price, org2.price)  # 此时org1和org2的price互不影响
+# ——————————————————————————————————————————————
+# sort一般用于列表，sorted可用范围更广,sorted会返回一个新生成的列表，而sort直接在原列表中排序
+persons = [{'name': 'ronnie', 'age': 22}, {'name': 'may', 'age': 20},
+           {'name': 'yyh', 'age': 18}, {'name': 'yyh', 'age': 3}]
+grades = [['ronnie', 'a', 93], ['may', 'a', 98], ['yyh', 'b', 80], ['cc', 'a', 93]]
+mydict = [{''}]
+x = sorted(persons, key=lambda x: (x['name'], -x['age']))  # 表示名字升序，年龄降序排列, x代表的是迭代的每一个字典
+print(x)
+y = sorted(grades, key=operator.itemgetter(1, 2, 0))  # 按照等第，分数，名字的顺序升序  使用opertateor.intemgetter默认升序
+print(y)
+y = sorted(grades, key=lambda x: (x[1], -x[2], x[0]))  # 等第升序，分数降序，名字升序  使用lambda可以自定义不同项的升降序
+print(y)
+z = sorted()
 
