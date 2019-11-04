@@ -1,5 +1,8 @@
 from collections import namedtuple
 import operator
+import collections
+import pandas as pd
+
 
 season = namedtuple('seasons', ['spring', 'summer', 'autumn', 'winter'])._make(range(4))
 print(season.spring)
@@ -122,12 +125,57 @@ print(org1.price, org2.price)  # 此时org1和org2的price互不影响
 persons = [{'name': 'ronnie', 'age': 22}, {'name': 'may', 'age': 20},
            {'name': 'yyh', 'age': 18}, {'name': 'yyh', 'age': 3}]
 grades = [['ronnie', 'a', 93], ['may', 'a', 98], ['yyh', 'b', 80], ['cc', 'a', 93]]
-mydict = [{''}]
+mydict = [{'chun': ['c', 4]}, {'jiang': ['j', 5]}, {'yang': ['y', 4]}, {'yyh': ['y', 3]}]
 x = sorted(persons, key=lambda x: (x['name'], -x['age']))  # 表示名字升序，年龄降序排列, x代表的是迭代的每一个字典
 print(x)
 y = sorted(grades, key=operator.itemgetter(1, 2, 0))  # 按照等第，分数，名字的顺序升序  使用opertateor.intemgetter默认升序
 print(y)
 y = sorted(grades, key=lambda x: (x[1], -x[2], x[0]))  # 等第升序，分数降序，名字升序  使用lambda可以自定义不同项的升降序
 print(y)
-z = sorted()
+z = sorted(mydict, key=lambda x: ([i for i in x.keys()], [i for i in x.values()][0][0], -[i for i in x.values()][0][1]))
+print(z)  # 名字升序，首字母升序，名字长度降序  使用迭代读取处单个字典内的信息
+# ——————————————————————————————————————————————————
+"""
+    浅拷贝拷贝的是对象的地址，深拷贝拷贝的的对象的值
+"""
+# ——————————————————————————
+test = ['a', '2', 2, 4, 5, '2', 'b', 4, 7, 'a', 5, 'd', 'a', 'z']
+print(collections.Counter(test))
+# -----------------------------------------------------
+"""
+data = pd.read_csv("telelist.csv", usecols=[0, 1, 2, 3, 4], chunksize=15, iterator=True)
+usecols为所需列，chunksize将所有数据分块每次显示15,data为一个可迭代对象
+"""
+# ---------------------------------------------------------------------
+"""
+element tree解析xml格式的文件
+pickle 执行序列化的操作
+json 也可以用来处理处理序列化的操作
+发布订阅模式用blinker或python-message
+"""
+
+
+# ——————————————————————————————————————————————————————
+def work():
+    print('work hard')
+
+
+def rest():
+    print('enjoy')
+
+
+class Person:
+    pass
+
+
+people = Person()
+for i in range(1, 8):
+    if i > 5:
+        people.day = rest
+    else:
+        people.day = work
+    people.day()
+
+
+# 根据不同的需要，将实例的方法替换掉
 
