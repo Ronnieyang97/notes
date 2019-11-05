@@ -1,2 +1,6 @@
-test = {'a': 1, 'b': 2}
-test.keys()
+dictt = {'w': 'e'}
+print(dictt.keys())
+print(dictt.items())
+print(dictt.values())
+for i in dictt.keys():
+    print(i)
