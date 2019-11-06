@@ -50,10 +50,5 @@ def userid(userid):
         return '<h1>hello {}<h1>'.format(userid)
 
 
-@app.route('/jump')
-def jump():
-    return flask.redirect('http://127.0.0.1:5000/user/ronnie')
-
-
 if __name__ == '__main__':
     app.run(debug=True)
