@@ -1,6 +1,12 @@
-dictt = {'w': 'e'}
-print(dictt.keys())
-print(dictt.items())
-print(dictt.values())
-for i in dictt.keys():
-    print(i)
+test = '1234e'
+print(test.isdigit())
+
+
+<div class="container">
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {{ message }}
+
+    </div>
+{% endfor %}

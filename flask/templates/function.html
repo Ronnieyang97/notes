@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>function</title>
+</head>
+<body>
+    <!-- 构造函数供user.html调用-->
+    {% macro double(li)%}
+        <ul>
+        {% for i in li %}
+            <li> this is double num {{i * 2}}</li>
+        {% endfor %}
+        </ul>
+    {% endmacro %}
+</body>
+</html>
