@@ -37,9 +37,9 @@ def newindex():  # 连接到模板页面
 # name通过字典查询的方式传入值
 
 
-@app.route('/user/<name>')
-def name(name):
-    return '<h1>hello {}<h1>'.format(name)
+@app.route('/user/<username>')
+def name(aname):
+    return '<h1>hello {}<h1>'.format(aname)
 
 
 @app.route('/id/<userid>')
