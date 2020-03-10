@@ -1,7 +1,15 @@
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import tensorflow as tf
 
-train_datagen = ImageDataGenerator(rescale=1 / 255)
+train_datagen = ImageDataGenerator(rescale=1 / 255,
+                                   rotation_range=40,  # 随机旋转0-40（最高180）
+                                   width_shift_range=0.2,  # 类似滑动窗口，20%
+                                   height_shift_range=0.2,
+                                   shear_range=0.2,  # 剪切，并随机分配到图像中指定的部分
+                                   zoom_range=0.2,  # 缩放
+                                   horizontal_flip=True,  # 水平翻转
+                                   fill_mode='nearest'  # 填充模式
+                                   )  # 完成了图像增强
 trian_generator = train_datagen.flow_from_directory('horse-or-human',  # 主目录
                                                     target_size=(300, 300),
                                                     batch_size=128,
@@ -9,7 +17,7 @@ trian_generator = train_datagen.flow_from_directory('horse-or-human',  # 主目�
 validation_datagen = ImageDataGenerator(rescale=1 / 255)
 validation_generator = validation_datagen.flow_from_directory('validation-horse-or-human',
                                                               target_size=(300, 300),
-                                                              batch_size=32 ,
+                                                              batch_size=32,
                                                               class_mode='binary')
 '''test_datagen = ImageDataGenerator(rescale=1 / 255)
 validation_generator = test_datagen.flow_from_directory(test_dir,
