@@ -1,0 +1,6 @@
+配置vsftpd配置文件 /etc/vsftpd/vsftpd.conf
+listen=[YES|NO] 是否以独立运行的方式监听服务
+listen_address=IP地址 设置要监听的IP地址
+listen_port=21 设置FTP服务的监听端口
+。。。
+ftp [参数] [主机]
