@@ -1,0 +1,5 @@
+第二十八章 SMTP：简单邮件传送协议
+用TCP进行的邮件交换是由报文传送代理MTA完成的
+两个MTA之间用NVT ASCII进行通信，客户向服务器发出命令，服务器用数字应答码和可选的字符串进行响应
+电子邮件由三个部分组成：信封是MTA用来交付的，由若干SMTP命令指明；首部由用户代理使用（Received\Message-Id\From\Data\Reply-To\X-Phone\X-Mailer\To\Subject）；正文是发送用户给接受用户报文的内容
+中继代理
